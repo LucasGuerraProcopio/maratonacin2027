@@ -1,0 +1,1 @@
+{"name":"Local: E","url":"c:\\Users\\Samsung\\OneDrive\\Área de Trabalho\\treino maratona\\homework1\\E.cpp","tests":[{"id":1790561376543,"input":"8 3\n1 2 3 2 5 2 2 2\n","output":"3 2 3 2 2 1\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Samsung\\OneDrive\\Área de Trabalho\\treino maratona\\homework1\\E.cpp","group":"local","local":true}
