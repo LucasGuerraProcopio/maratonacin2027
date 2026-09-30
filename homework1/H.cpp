@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <set>;
 using namespace std;
 
 int main(){
@@ -6,35 +8,33 @@ int main(){
     ios::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int n, k, a,rodadas, mediana;
+    int n, k, a, rodadas;
     vector<int> lista;
     multiset<int> organizado;
     cin >> n >> k;
-    rodadas = n-k+1;
+    rodadas = n-k;
     for(int i=0; i<n; i++){
         cin >> a;
         lista.push_back(a);
     };
     for(int g=0; g<k; g++){
         organizado.insert(lista[g]);
-    };
-    if(k%2==0){
-        mediana = (k/2) - 1;
     }
-    else{
-        mediana = (k-1)/2;
-    };
 
-    auto posicao = organizado.begin();
-    advance(posicao, mediana);
-    cout << *posicao;
+    auto mediana = next(organizado.begin(), (k-1)/2); 
+    cout << *mediana;
     
-    for(int b=1; b<rodadas; b++){
-        organizado.insert(lista[b+k-1]);
-        organizado.erase(organizado.find(lista[b-1]));
-        auto posicao = organizado.begin();
-        advance(posicao, mediana);
-        cout << " " << *posicao; 
+    for(int b=0; b<rodadas; b++){
+        organizado.insert(lista[b+k]);
+        if(lista[b+k] < *mediana){
+            mediana--;
+        };
+        if(lista[b] <= *mediana){
+            mediana++;
+        };
+        organizado.erase(organizado.find(lista[b]));
+        cout << " " << *mediana;
+
     };
     return 0;
-}
+};
