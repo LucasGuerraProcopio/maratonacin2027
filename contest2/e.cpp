@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <map>
+#include <vector>
 using namespace std;
 
 
@@ -8,10 +10,10 @@ int main(){
     cin.tie(NULL);
 
     int n;
-    long long maior, soma_total;
+    unsigned long long maior, soma_total;
     cin >> n;
-    map<long long, long long> valores;
-    vector<long long> pedidos(n);
+    map<unsigned long long, unsigned long long> valores;
+    vector<unsigned long long> pedidos(n);
     for(int i=0; i<n; i++){
         cin >> pedidos[i];
     }
