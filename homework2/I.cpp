@@ -6,6 +6,27 @@
 #include <queue>
 using namespace std;
 
+
+bool verificador(vector<long long>& sequencia, long long meio, long long meta){
+    long long vacas = 1;
+    long long posicao = 0;
+    auto proximo = lower_bound(sequencia.begin(), sequencia.end(), 0);
+    posicao = *proximo;
+    for(int i=1; i<meta; i++){
+        posicao += meio;
+        auto proximo = lower_bound(sequencia.begin(), sequencia.end(), posicao);
+        if(proximo == sequencia.end()){return false;}
+        else{
+            posicao = *proximo;
+            vacas += 1;
+            if(vacas == meta){return true;};
+        };
+    };
+};
+
+
+
+
 int main(){
 
     ios::sync_with_stdio(false);
@@ -14,27 +35,30 @@ int main(){
     int t;cin>> t;
     for(int i=0; i<t; i++){
 
-        int n, c; cin>> n >> c;
-        long long intervalo;
+        long long n, c, menor, maior, mid; cin>> n >> c;
+        long long melhor_resultado = 0;
+        bool tentativa;
         vector<long long> lista(n);
-        priority_queue<long long, vector<long long>, greater<>> intervalos;
         for(int j=0; j<n; j++){
             cin >> lista[j];
-        }
+        };
         sort(lista.begin(), lista.end());
-        for(int r=0; r<n-1; r++){
-            intervalo = lista[r+1] - lista[r];
-            intervalos.push(intervalo);
-            if(intervalos.size() == c){
-                intervalos.pop();
+        menor = lista[0];
+        maior = lista[n-1];
+        while(menor <= maior){
+            mid = (maior + menor)/2;
+            tentativa = verificador(lista, mid, c);
+            if(tentativa){
+                melhor_resultado = mid;
+                menor = mid + 1;
+            }
+            else{
+                maior = mid - 1;
             };
         };
-        cout << intervalos.top() << "\n";
+
+        cout << melhor_resultado << "\n";
     }
-
-
-
-
 
     return 0;
 }

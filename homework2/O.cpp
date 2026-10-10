@@ -30,7 +30,7 @@ int main(){
         maior = 0;
         invalido = false;
         if(__builtin_popcount(mask) < 2){
-            continue;
+            continue;x
         }
         for(int bit=0; bit<n; bit++){
             if(mask & (1 << (bit))){
