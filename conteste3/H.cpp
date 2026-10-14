@@ -1,4 +1,8 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <numeric>
+#include <algorithm>
 using namespace std;
 
 
@@ -8,34 +12,38 @@ int main(){
     cin.tie(NULL);
 
     long long n, k; cin >> n >> k;
-    long long soma = 0;
-    bool foi = false;
-    vector<long long> casas;
-    vector<long long> lista(n);
+    vector<pair<long long, long long>> numeros;
     for(int i=0; i<n; i++){
-        cin >> lista[i];
+        pair<long long, long long> linha;
+        cin >> linha.first;
+        linha.second = i + 1;
+        numeros.push_back(linha);
     };
+    sort(numeros.begin(), numeros.end());
 
-    for(int mask = 0; mask < (1 << n); mask++){
-        if(__builtin_popcount(mask) != 3){continue;};
-        soma = 0;
-        casas.clear();
-        for(int bit = 0; bit < n; bit++){
-            if(mask & (1 << (bit))) {
-                casas.push_back(bit + 1);
-                soma += lista[bit];
+    for(int i=0; i<n; i++){
+        long long menor = i+1;
+        long long maior = n-1;
+        while(menor < maior){
+            if(numeros[i].first + numeros[menor].first + numeros[maior].first == k){
+                vector<long long> resposta;
+                resposta.push_back(numeros[i].second);
+                resposta.push_back(numeros[menor].second);
+                resposta.push_back(numeros[maior].second);
+                sort(resposta.begin(), resposta.end());
+                cout << resposta[0] << " " << resposta[1] << " " << resposta[2];
+                return 0;
+            }
+            else if(numeros[i].first + numeros[menor].first + numeros[maior].first > k){
+                maior--;
+            }
+            else{
+                menor++;
             };
-            };
-        if(soma == k){
-            cout << casas[0] << " " << casas[1] << " " << casas[2]; 
-            foi = true;
-            break;
-        }
+        };
     }
 
-    if(foi == false){
-        cout << "IMPOSSIBLE";
-    }
+    cout << "IMPOSSIBLE";
 
     return 0;
 }
