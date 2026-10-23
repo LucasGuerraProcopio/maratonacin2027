@@ -33,24 +33,46 @@ int main(){
     cin.tie(NULL);
 
     ll n, m, q; cin >> n >> m >> q;
-    vector<aresta> lados(m);
+    vector<pair<aresta, int>> lados;
+    vector<bool> funciona(q);
+
     for(int i=0; i<m; i++){
-        cin >> lados[i].u >> lados[i].v >> lados[i].custo;
+        ll a,b,c; cin >> a >> b >> c;
+        pair<aresta, int> novo;
+        novo.first = {a,b,c};
+        novo.second = -1;
+        lados.push_back(novo);
     };
 
-    sort(lados.begin(), lados.end(), [](const aresta& a, const aresta& b) {return a.custo < b.custo;});
+    for(int i=0; i<q; i++){
+        ll a,b,c; cin >> a >> b >> c;
+        pair<aresta,int> novo;
+        novo.first = {a,b,c};
+        novo.second = i;
+        lados.push_back(novo);
+    }
+
+    sort(lados.begin(), lados.end(), [](const pair<aresta, int>& a, const pair<aresta, int>& b) {return a.first.custo < b.first.custo;});
 
     DSU reslvedor(n);
-    ll preco = 0;
-    ll feitas = 0;
-    for(auto [u, v, c] : lados){
-        if(reslvedor.join(u, v)){
-            preco += c;
-            feitas++;
+    for(int i=0; i<m+q; i++){
+        auto[u, v, c] = lados[i].first;
+        if(lados[i].second == -1){
+            reslvedor.join(u, v);
+        }
+        else{
+            if(reslvedor.find(u) != reslvedor.find(v)){
+                funciona[lados[i].second] = true;
+            }
+            else{
+                funciona[lados[i].second] = false;
+            }
         }
     }
 
-
+    for(int i=0; i<q; i++){
+        if(funciona[i]){cout << "Yes\n";}else{cout << "No\n";}
+    }
 
     return 0;
 
