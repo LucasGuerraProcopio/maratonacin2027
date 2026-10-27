@@ -1,7 +1,6 @@
-#include <iostream>
-#include <map>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
+typedef long long ll;
 
 
 int main(){
@@ -9,36 +8,38 @@ int main(){
     ios::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int n;
-    unsigned long long maior, soma_total;
-    cin >> n;
-    map<unsigned long long, unsigned long long> valores;
-    vector<unsigned long long> pedidos(n);
+    int n;cin >> n;
+    vector<ll> casa(200005, 0);
+    ll maximo = 0;
+
     for(int i=0; i<n; i++){
-        cin >> pedidos[i];
-    }
-
-    maior = 0;
-    for(int o=0; o<n; o++){
-        if(pedidos[o] > maior){
-            maior = pedidos[o];
-        };
+        ll a; cin >> a;
+        casa[0]++;
+        casa[a]--;
+        maximo = max(maximo, a);
     };
 
-    for(int c=1; c<maior+1; c++){
-        if(c==1){
-            valores[c] = 1;
-        }
-        else{
-            valores[c] = valores[c-1]*10 + 1;
-        }
-    }
-
-    soma_total = 0;
-    for(int h=0; h<n; h++){
-        soma_total += valores[pedidos[h]];
+    vector<ll> uns(maximo+1, 0);
+    ll unzes = 0;
+    for(int i=0; i<=maximo; i++){
+        unzes += casa[i];
+        uns[i] = unzes;
     };
 
-    cout << soma_total;
+    string resposta;
+    ll extra = 0;
+
+    for(int j=0; j < maximo || extra > 0; j++){
+        int soma = extra;
+        if(j < maximo){soma += uns[j];};
+        extra = soma / 10;
+        int novo = soma%10;
+        resposta += to_string(novo);
+    };
+
+    reverse(resposta.begin(), resposta.end());
+    cout << resposta;
+
+
     return 0;
 }
