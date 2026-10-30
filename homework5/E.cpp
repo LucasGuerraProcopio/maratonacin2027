@@ -3,7 +3,7 @@ using namespace std;
 typedef long long ll;
 const int MAXN = 105;
 const int MAWN = 1e5+5;
-ll dp[MAXN][MAWN];
+ll dp[105][MAWN];
 vector<ll> w, v;
 
 ll solve(int i, ll cap){
@@ -28,6 +28,8 @@ int main(){
         ll a,b; cin >> a >> b;
         w.push_back(a); v.push_back(b);
     };
+    ll soma = 0;
+    for(int i=0; i<v.size(); i++)
     memset(dp, -1, sizeof dp);
     cout << solve(0,m);
 
