@@ -1,32 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-const long long MAXN = 2e5 + 5;
-const long long INF = 1e15;
-int dp[MAXN][2];
-int n,q;
-vector<long long> v(MAXN);
+const ll MAXN = 2e5 + 5; 
+ll dp[MAXN];
 
-long long solve(int i, bool comecei){
-    if(i==n){
-        if(!comecei){
-            return -INF;
-        }
-        else{return 0;}
-    }
-
-    if(dp[i][comecei] != -1){return dp[i][comecei];}
-
-    long long peguei = v[i] + solve(i+1, 1);
-    if(!comecei){
-        long long ignorei = solve(i+1, comecei);
-        return dp[i][comecei] = max(peguei, ignorei);
-    }
-    else{
-        dp[i][comecei] = peguei;
-        return dp[i][comecei];
-    }
-}
 
 
 int main(){
@@ -34,25 +11,27 @@ int main(){
     ios::sync_with_stdio(false);
     cin.tie(NULL);
 
-    cin >> n >> q;
-    for(int i=1; i<=n; i++){
-        cin >> v[i];
-    }
+        int n,q; cin >> n >> q;
+        vector<ll> numeros(n+1);
+        for(int i=1; i<=n; i++){
+            cin >> numeros[i];
+        };
 
-    memset(dp, -1, sizeof dp);
+        dp[n] = numeros[n];
+        ll atual = numeros[n];
+        ll resposta = numeros[n];
+        for(int i=n-1; i>=1; i--){
+            atual = max(numeros[i], atual + numeros[i]);
+            resposta = max(resposta, atual);
+            dp[i] = resposta;
+        };
 
-    ll resposta = solve(1, 0);
-    dp[n][0] = v[n];
-    dp[n][1] = v[n];
-    for(int i=0; i<=MAXN; i++){
-        if(dp[i][0] == 0){dp[i][0] = v[i];}
-    }
+        for(int i=0; i<q; i++){
+            int a; cin >> a;
+            cout << dp[a+1] << "\n";
+        }
 
 
-    for(int i=0; i<q; i++){
-        int a; cin >> a;
-        cout << max(dp[a+1][0], dp[a+1][0]) << "\n";
-    }
 
 
     return 0;
