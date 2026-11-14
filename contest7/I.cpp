@@ -29,6 +29,8 @@ int main(){
     cin.tie(NULL);
 
     ll n, m; cin >> n >> m;
+
+    if(n==1){cout << 0; return 0;}
     for(int i=0; i<m; i++){
         ll a, b; cin >> a >> b;
         adj[a].push_back(b);
@@ -42,7 +44,6 @@ int main(){
         vector<int> novo;
         grupos.push_back(novo);
         atual++;
-        memset(visitado, false, sizeof visitado);
         while(true){
             if(!foi[ultimo]){
                 verificador(ultimo);
@@ -53,18 +54,33 @@ int main(){
         }
     }
 
+    if(grupos.size() == 1){cout << 0; return 0;}
+
+    sort(grupos.begin(), grupos.end(), [](const vector<int>& x, const vector<int> & y){return x.size() > y.size();});
+
+    vector<int> todos;
     for(int i=0; i<grupos.size(); i++){
-        for(int j=0; j<grupos[i].size(); j++){
-            for(int w=i+1; w<grupos.size(); w++){
-                for(int c=0; c<grupos[w].size(); c++){
-                    pair<int, int> nova;
-                    if(grupos[i][j] < grupos[w][c]){nova.first = grupos[i][j]; nova.second = grupos[w][c];}
-                    else{nova.first = grupos[w][c]; nova.second = grupos[i][j];}
-                    duplas.push_back(nova);
-                }
-            }
-        }
+        for(int x : grupos[i]){todos.push_back(x);}
     };
+
+    int maior = grupos[0].size();
+
+    if(maior <= n/2){
+        for(int i = 0; i<n/2; i++){
+            pair<int, int> nova;
+            nova.first = todos[i]; nova.second = todos[i + n/2];
+            if(nova.first > nova.second){swap(nova.first, nova.second);}
+            duplas.push_back(nova);
+        }
+    }
+    else{
+        for(int i=0; i<n-maior; i++){
+            pair<int, int> nova;
+            nova.first = todos[i]; nova.second = todos[i + maior];
+            if(nova.first > nova.second){swap(nova.first, nova.second);}
+            duplas.push_back(nova);
+        }
+    }
 
     cout << duplas.size() << "\n";
     for(int i=0; i<duplas.size(); i++){
