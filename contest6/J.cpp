@@ -39,6 +39,7 @@ int main(){
     }
 
 
+    sort(tristes.begin(), tristes.end());
     cout << tristes.size() << "\n";
     for(int i=0; i<tristes.size(); i++){
         if(i==0){cout << tristes[i];}else{cout << " " << tristes[i];}

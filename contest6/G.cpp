@@ -47,9 +47,6 @@ int main(){
 
     cout << resultado;
 
-
-
-
     return 0;
 
 }
